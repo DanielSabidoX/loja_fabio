@@ -1,0 +1,65 @@
+<header class="navbar navbar-expand-lg d-flex flex-row text-center justify-content-between fixed-top ">
+    <!-- Ícone da loja sempre no início -->
+    <div class="ico-loja d-flex align-items-center">
+        <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/">
+            <i class="bi bi-shop me-2"></i>Loja<br>Fábio
+        </a>
+    </div>
+
+    <!-- Campo de pesquisa -->
+    <form class="d-flex mx-3 flex-grow-1" role="search">
+        <input class="form-control me-2" type="search" placeholder="O que você procura?" aria-label="Search">
+        <button class="btn" type="submit">
+            <i class="bi bi-search"></i>
+        </button>
+    </form>
+
+    <!-- Créditos e Modo Tema -->
+    <div class="d-flex align-items-center ms-auto">
+        <div class="creditos">
+            <a class="flex-fill mx-2 fw-bold" routerLink="/creditos">Créditos</a>
+        </div>
+        <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/carrinho">
+            <i class="bi bi-cart"></i>
+            <span class="badge bg-secondary">Carrinho</span>
+        </a>
+        <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/perfil">
+            <i class="bi bi-person"></i>
+            <span class="badge bg-secondary">Login</span>
+        </a>
+        <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/sair">
+            <i class="bi bi-box-arrow-right"></i>
+            <span class="badge bg-secondary">Sair</span>
+        </a>
+    </div>
+
+    <!-- Itens alinhados à direita -->
+    <div class="d-flex align-items-end">
+        <div class="d-flex flex-column justify-content-center align-items-center mx-3 p-2 border rounded">
+            <label class="form-check-label fw-bold mb-1" id="modo_tema">{{modo_tema}}</label>
+            <div class="form-check form-switch m-0 p-0 d-flex justify-content-center">
+                <input class="form-check-input icon mx-auto" type="checkbox" role="switch" id="mudar_tema"
+                    (click)="toggleTheme($event)">
+            </div>
+        </div>        
+    </div>
+</header>
+
+<article>
+@if (!isAuthenticated) {
+  <div class="alert alert-warning text-center m-0" role="alert">
+    ⚠️ Para adicionar, atualizar ou deletar produtos, é necessário estar autenticado.
+  </div>
+}    
+</article>
+
+<section class="navbar navbar-expand-lg d-flex flex-row sub-menu ">
+    <a class="navbar-brand flex-fill mx-2 fw-bold">Todas as Categorias</a>
+    @for (categoria of categorias; track categoria; let i = $index) {
+        <a class="navbar-brand flex-fill mx-2 fw-bold">{{ categoria.toString() | capitalizeWords }}</a>
+    }
+</section>
+
+
+
+

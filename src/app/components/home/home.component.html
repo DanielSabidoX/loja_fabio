@@ -1,0 +1,61 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Lista de Produtos</h2>
+
+  <!-- Caso não existam produtos -->
+  @if (produtos.length === 0) {
+    <div class="alert alert-warning text-center">
+      Nenhum produto encontrado.
+    </div>
+  }
+
+  <!-- Lista de produtos -->
+  <div class="row g-3">
+    @for (produto of produtos; track produto.id) {
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="card h-100 shadow-sm">
+          <!-- Imagem do produto -->
+          @if (produto.image) {
+            <img [src]="produto.image" [alt]="produto.title" class="card-img-top">
+          }
+
+          <div class="card-body d-flex flex-column">
+            <!-- Nome -->
+            <h5 class="card-title">{{ produto.title }}</h5>
+
+            <!-- Categoria -->
+            @if (produto.category) {
+              <p class="text-secondary small mb-1">
+                Categoria: {{ produto.category | capitalizeWords }}
+              </p>
+            }
+
+            <!-- Descrição -->
+            <p class="card-text small text-muted">
+              {{ produto.description }}
+            </p>
+
+            <!-- Preço -->
+            <p class="fw-bold text-primary mb-2">
+              {{ produto.price | currency:'BRL' }}
+            </p>
+
+            <!-- Avaliação -->
+            @if (produto.rating) {
+              <div>
+                <span class="text-warning">★</span>
+                {{ produto.rating.rate }} ({{ produto.rating.count }} avaliações)
+              </div>
+            }
+
+            <!-- Botão -->
+            <div class="mt-auto">
+              <button class="btn btn-sm btn-outline-primary w-100">
+                Ver detalhes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

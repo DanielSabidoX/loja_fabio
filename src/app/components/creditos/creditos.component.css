@@ -1,0 +1,43 @@
+.carta {
+  max-width: 1200px;          /* largura máxima da carta */
+  margin: 40px auto;         /* centraliza horizontalmente e dá margem superior */
+  padding: 30px 40px;        /* espaço interno */
+        /* cor tipo papel */
+  border-radius: 15px;       /* cantos arredondados */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* sombra suave */
+  font-family: 'Georgia', serif; /* fonte clássica de carta */
+  line-height: 1.6;
+
+}
+
+.carta h1 {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+}
+
+.carta h2 {
+  margin-top: 25px;
+  margin-bottom: 10px;
+
+
+  padding-bottom: 5px;
+}
+
+.carta p {
+  margin-bottom: 15px;
+}
+
+.carta ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.carta a {
+
+  text-decoration: none;
+}
+
+.carta a:hover {
+  text-decoration: underline;
+}

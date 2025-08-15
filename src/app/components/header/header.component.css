@@ -1,0 +1,61 @@
+.icon {
+    width: 48px;
+    height: 22px;
+    margin-right: 30px;
+}
+
+header, section {
+    border-bottom: 1px solid #ccc;
+
+    /* cores padrão dependentes do tema */
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+.bi-shop {
+    font-size: 1.5rem; 
+}
+
+.navbar-brand:hover {
+    border-radius: 5px;
+    border: 2px solid;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
+.creditos {
+    border: 2px solid;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+.creditos>a {
+    color: inherit;
+    text-decoration: none;
+    font-size: 14pt;
+}
+
+.creditos:hover {
+    background-color: var(--bs-primary-bg-hover, aquamarine);
+    color: var(--bs-primary);
+}
+
+.ico-loja {
+    width: 100px;
+    border: 2px solid;
+    border-radius: 5px;
+    margin-left: 10px;
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+.sub-menu {
+    position: sticky;
+    top: 90px;
+    z-index: 1020;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
