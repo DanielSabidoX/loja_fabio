@@ -15,8 +15,7 @@ export class HeaderComponent implements OnInit {
   tema: string = 'light';
   modo_tema: string = 'Modo Claro';
   categorias: Categories[] = [];
-
-  isAuthenticated: boolean = false;
+  isAuthenticated: boolean = true;
 
   constructor(
     private productService: ProductService,
@@ -24,7 +23,7 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Carregar tema salvo
+    // Carrega tema salvo
     const savedTema = localStorage.getItem('tema');
     const savedModoTema = localStorage.getItem('modo_tema');
 
@@ -32,13 +31,17 @@ export class HeaderComponent implements OnInit {
       this.tema = savedTema;
       this.modo_tema = savedModoTema || 'Modo Claro';
     }
+
+    // Aplica o tema
     document.documentElement.setAttribute('data-bs-theme', this.tema);
 
-    // Buscar categorias
+    // Busca categorias
     this.productService.findCategories().subscribe({
       next: (categorias) => {
         this.toastr.info('Categorias carregadas com sucesso!', 'Informe', {
-          timeOut: 3000, progressBar: true, progressAnimation: "decreasing"
+          timeOut: 3000,
+          progressBar: true,
+          progressAnimation: "decreasing"
         });
         this.categorias = categorias;
       },
@@ -57,8 +60,8 @@ export class HeaderComponent implements OnInit {
     const checkbox = event.target as HTMLInputElement;
     this.tema = checkbox.checked ? 'dark' : 'light';
     this.modo_tema = checkbox.checked ? 'Modo Escuro' : 'Modo Claro';
-    document.documentElement.setAttribute('data-bs-theme', this.tema);
 
+    document.documentElement.setAttribute('data-bs-theme', this.tema);
     localStorage.setItem('tema', this.tema);
     localStorage.setItem('modo_tema', this.modo_tema);
   }

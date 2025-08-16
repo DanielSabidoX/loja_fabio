@@ -51,11 +51,14 @@ header, section {
     color: var(--bs-body-color);
 }
 
-.sub-menu {
-    position: sticky;
-    top: 90px;
-    z-index: 1020;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.ico-loja>a {
+    text-decoration: none;
 }
+
+.ico-loja:hover {
+    background-color: var(--bs-primary-bg-hover, );
+    color: var(--bs-primary);
+}
+
 
 
