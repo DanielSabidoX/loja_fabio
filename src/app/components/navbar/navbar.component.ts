@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Categories } from '../../services/product.type.js';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service.js';
 
 
 @Component({
-  selector: 'app-header',
+  selector: 'app-navbar',
   imports: [RouterLink],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  templateUrl: './navbar.component.html',
+  styleUrl: './navbar.component.css'
 })
-export class HeaderComponent implements OnInit {
+export class NavbarComponent implements OnInit {
   tema: string = 'light';
   modo_tema: string = 'Modo Claro';
   categorias: Categories[] = [];
