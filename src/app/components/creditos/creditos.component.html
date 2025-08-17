@@ -26,8 +26,14 @@
     Inicialmente é feita uma consulta no <a href="https://fakestoreapi.com/products/categories" target="_blank">https://fakestoreapi.com/products/categories</a> para buscar a lista de categorias que fará a carga inicial no menu. Essas categorias serão usadas como filtros para o cliente encontrar mais rápido o produto.
   </p>
   <p>
-    As categirias e produtos são carregados através de serviços que fazem requisições HTTP para a API Fake Store. O componente <strong>home</strong> renderiza a lista de produtos, enquanto o componente <strong>header</strong> renderiza o menu e as categorias.
+    As categorias e produtos são carregados através de serviços que fazem requisições HTTP para a API Fake Store. O componente <strong>home</strong> renderiza a lista de produtos, enquanto o componente <strong>header</strong> renderiza o menu e as categorias.
     Os objetos produtos e categorias são tipados através de interfaces que definem as propriedades esperadas. Também são armazenados na service para evitar várias consultas ao servidor ao muda de componente na navegação.
+  </p>
+  <p>
+    O cliente pode filtrar os produtos por categoria, título/descrição e faixa de preço. Ao clicar em detalhes de um produto, o cliente é direcionado para a página de detalhes do produto, onde pode escolher a quantidade e adicionar ao carrinho.
+    Na pagina iniciar o cliente já pode adicionar itens ao carrinho, mas para finalizar a compra é necessário estar autenticado.
+    O carrinho de compras é gerenciado por um serviço que mantém o estado dos itens adicionados. O cliente pode visualizar o carrinho, alterar quantidades, remover itens e finalizar a compra. 
+    Se não estiver autenticado, uma mensagem alerta que é necessário fazer login.
   </p>
 </div>
 

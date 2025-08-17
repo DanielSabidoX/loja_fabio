@@ -1,30 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Categories } from '../../services/product.type.js';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service.js';
 import { CartService } from '../../services/cart.service.js';
-import { CommonModule } from '@angular/common';
+import { CapitalizeWordsPipe } from '../../helpers/capitalize.pipe.js';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, CapitalizeWordsPipe],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
   tema: string = 'light';
   modo_tema: string = 'Modo Claro';
-  categorias: Categories[] = [];
-  cartCount: number = 0;  
+  cartCount: number = 0;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private cartService: CartService
   ) { }
 
   ngOnInit(): void {
-    // Tema
     const savedTema = localStorage.getItem('tema');
     const savedModoTema = localStorage.getItem('modo_tema');
     if (savedTema) {
@@ -33,16 +31,9 @@ export class NavbarComponent implements OnInit {
     }
     document.documentElement.setAttribute('data-bs-theme', this.tema);
 
-    // 👇 escuta carrinho - Conta quantdade de itens diferentes
-    /*this.cartService.items$.subscribe(items => {
-      this.cartCount = items.length;
-    });*/
-
     this.cartService.items$.subscribe(items => {
-      // soma todas as quantidades de todos os itens
       this.cartCount = items.reduce((sum, item) => sum + item.quantidade, 0);
     });
-
   }
 
   toggleTheme(event: Event): void {
@@ -59,9 +50,9 @@ export class NavbarComponent implements OnInit {
     return this.authService.isAuthenticated;
   }
 
-  login() {
-    this.authService.login();
-  }
+get username(): string {
+  return this.authService.getUsername() || '';
+}
 
   sair() {
     this.authService.logout();
