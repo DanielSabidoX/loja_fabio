@@ -1,61 +1,105 @@
-<div class="container mt-4">
+<div class="container mt-4 row">
   <h2 class="mb-4">Lista de Produtos</h2>
 
-  <!-- Caso não existam produtos -->
-  @if (produtos.length === 0) {
-    <div class="alert alert-warning text-center">
-      Nenhum produto encontrado.
+  <!-- Filtro de busca por palavras -->
+  <div class="mb-3 col-4">
+    <label for="busca" class="form-label text-primary">
+      <h5>Buscar:</h5>
+    </label>
+    <input type="text" id="busca" class="form-control" placeholder="Digite um título ou descrição"
+      [(ngModel)]="textoBusca" (input)="filtrarProdutos()">
+  </div>
+
+
+  <!-- Filtro de categoria -->
+  <div class="mb-3 col-2">
+    <label for="categoria" class="form-label text-primary">
+      <h5>Filtrar por Categoria:</h5>
+    </label>
+    <select id="categoria" class="form-select" [(ngModel)]="categoriaSelecionada" (change)="filtrarProdutos()">
+      <option value="todas">Todas</option>
+      @for (cat of categorias; track cat) {
+      <option [value]="cat">{{ cat | capitalizeWords }}</option>
+      }
+    </select>
+  </div>
+
+  <!-- Filtro por preço -->
+  <div class="mb-3 row col-6">
+    <div class="col-md-6">
+      <label for="precoMin" class="form-label text-primary">
+        <h5>Preço Mínimo:</h5>
+      </label>
+      <input type="text" mask="separator.2" thousandSeparator="." decimalMarker="," placeholder="Preço Mínimo"
+        id="precoMin" class="form-control" [(ngModel)]="precoMin" (input)="filtrarProdutos()" placeholder="0,00">
+
     </div>
+    <div class="col-md-6">
+      <label for="precoMax" class="form-label text-primary">
+        <h5>Preço Máximo:</h5>
+      </label>
+      <input type="text" mask="separator.2" thousandSeparator="." decimalMarker="," placeholder="Preço Mínimo"
+        id="precoMax" class="form-control" [(ngModel)]="precoMax" (input)="filtrarProdutos()" placeholder="0,00">
+    </div>
+  </div>
+
+  <!-- Nenhum produto -->
+  @if (produtosFiltrados.length === 0) {
+  <div class="alert alert-warning text-center">
+    Nenhum produto encontrado.
+  </div>
   }
 
   <!-- Lista de produtos -->
   <div class="row g-3">
-    @for (produto of produtos; track produto.id) {
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <div class="card h-100 shadow-sm">
-          <!-- Imagem do produto -->
-          @if (produto.image) {
-            <img [src]="produto.image" [alt]="produto.title" class="card-img-top">
+    @for (produto of produtosFiltrados; track produto.id) {
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="card h-100 shadow-sm">
+
+        @if (produto.image) {
+        <img [src]="produto.image" [alt]="produto.title" class="card-img-top">
+        }
+
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ produto.title }}</h5>
+
+          @if (produto.category) {
+          <p class="text-primary small mb-1">
+            Categoria: {{ produto.category | capitalizeWords }}
+          </p>
           }
 
-          <div class="card-body d-flex flex-column">
-            <!-- Nome -->
-            <h5 class="card-title">{{ produto.title }}</h5>
+          <!--<p class="card-text small text-muted">{{ produto.description }}</p>-->
 
-            <!-- Categoria -->
-            @if (produto.category) {
-              <p class="text-primary small mb-1">
-                Categoria: {{ produto.category | capitalizeWords }}
-              </p>
-            }
+          <p class="fw-bold text-primary mb-2">
+            {{ produto.price | currency:'BRL' }}
+          </p>
 
-            <!-- Descrição -->
-            <p class="card-text small text-muted">
-              {{ produto.description }}
-            </p>
-
-            <!-- Preço -->
-            <p class="fw-bold text-primary mb-2">
-              {{ produto.price | currency:'BRL' }}
-            </p>
-
-            <!-- Avaliação -->
-            @if (produto.rating) {
-              <div>
-                <span class="text-warning">★</span>
-                {{ produto.rating.rate }} ({{ produto.rating.count }} avaliações)
-              </div>
-            }
-
-            <!-- Botão -->
-            <div class="mt-auto">
-              <button class="btn btn-sm btn-outline-primary w-100">
-                Ver detalhes
-              </button>
-            </div>
+          <!--@if (produto.rating) {
+          <div>
+            <span class="text-warning">★</span>
+            {{ produto.rating.rate }} ({{ produto.rating.count }} avaliações)
           </div>
+           }-->
+
+          <div class="d-grid gap-2 mt-3 mt-auto">
+            
+            <button class="btn btn-sm btn-outline-success w-100">
+              Adicionar ao carrinho
+            </button>
+
+
+            <button class="btn btn-sm btn-outline-primary w-100">
+              Ver detalhes
+            </button>
+          </div>
+
+
         </div>
       </div>
+    </div>
+
     }
+
   </div>
 </div>

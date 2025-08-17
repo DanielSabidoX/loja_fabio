@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ProductService } from '../../services/product.service';
 import { Categories } from '../../services/product.type.js';
-import { ToastrService } from 'ngx-toastr';
-import { CapitalizeWordsPipe } from '../../helpers/capitalize.pipe';
+import { AuthService } from '../../services/auth.service';
+
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, CapitalizeWordsPipe],
+  imports: [RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -15,12 +14,10 @@ export class HeaderComponent implements OnInit {
   tema: string = 'light';
   modo_tema: string = 'Modo Claro';
   categorias: Categories[] = [];
-  isAuthenticated: boolean = true;
 
   constructor(
-    private productService: ProductService,
-    private toastr: ToastrService
-  ) {}
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     // Carrega tema salvo
@@ -35,25 +32,6 @@ export class HeaderComponent implements OnInit {
     // Aplica o tema
     document.documentElement.setAttribute('data-bs-theme', this.tema);
 
-    // Busca categorias
-    this.productService.findCategories().subscribe({
-      next: (categorias) => {
-        this.toastr.info('Categorias carregadas com sucesso!', 'Informe', {
-          timeOut: 3000,
-          progressBar: true,
-          progressAnimation: "decreasing"
-        });
-        this.categorias = categorias;
-      },
-      error: () => {
-        this.toastr.error(
-          'Não foi possível carregar categorias. Atualize a página para tentar novamente.',
-          'Atenção',
-          { timeOut: 10000, progressBar: true, progressAnimation: "decreasing" }
-        );
-        this.categorias = [];
-      }
-    });
   }
 
   toggleTheme(event: Event): void {
@@ -65,4 +43,17 @@ export class HeaderComponent implements OnInit {
     localStorage.setItem('tema', this.tema);
     localStorage.setItem('modo_tema', this.modo_tema);
   }
+
+  get isAuthenticated(): boolean {
+    return this.authService.isAuthenticated;
+  }
+
+  login() {
+    this.authService.login(); // Atualiza o estado de autenticação
+  }
+
+  sair() {
+    this.authService.logout();
+  }
+
 }

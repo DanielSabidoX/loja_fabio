@@ -11,8 +11,9 @@
 
   <h2>Principais componentes utilizados (externos)</h2>
   <ul>
-    <li>Bootstrap 5.3</li>
-    <li>Ngx-Toastr</li>
+    <li>Bootstrap 5.3: para estilos e icones de botoes</li>
+    <li>Ngx-Toastr: para notificações amigáveis</li>
+    <li>Ngx-mask: para formatação de campos</li>
   </ul>
 
   <h2>Estrutura do projeto</h2>
@@ -23,6 +24,10 @@
   <h2>Funcionamento</h2>
   <p>
     Inicialmente é feita uma consulta no <a href="https://fakestoreapi.com/products/categories" target="_blank">https://fakestoreapi.com/products/categories</a> para buscar a lista de categorias que fará a carga inicial no menu. Essas categorias serão usadas como filtros para o cliente encontrar mais rápido o produto.
+  </p>
+  <p>
+    As categirias e produtos são carregados através de serviços que fazem requisições HTTP para a API Fake Store. O componente <strong>home</strong> renderiza a lista de produtos, enquanto o componente <strong>header</strong> renderiza o menu e as categorias.
+    Os objetos produtos e categorias são tipados através de interfaces que definem as propriedades esperadas. Também são armazenados na service para evitar várias consultas ao servidor ao muda de componente na navegação.
   </p>
 </div>
 
