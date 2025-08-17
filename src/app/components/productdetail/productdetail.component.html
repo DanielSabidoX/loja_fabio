@@ -1,1 +1,37 @@
-<p>product works!</p>
+<div class="container mt-5" *ngIf="produto">
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <img [src]="produto.image" class="img-fluid" [alt]="produto.title">
+        </div>
+        <div class="col-md-6">
+            <h2>{{ produto.title }}</h2>
+            <p>{{ produto.description }}</p>
+            <p class="fw-bold text-success">{{ produto.price | currency:'BRL' }}</p>
+
+            <P>
+                <span class="text-warning">★</span>
+                {{ produto.rating.rate }} ({{ produto.rating.count }} avaliações)
+            </P>
+
+
+            <label class="form-label fw-bold">Quantidade</label>
+            <div class="input-group mb-3">
+                <button class="btn btn-outline-secondary" type="button" (click)="dec()">−</button>
+                <input type="text" mask="separator.0" thousandSeparator="" [ngModel]="quantidade"
+                    (ngModelChange)="onQuantidadeChange($event)" class="form-control text-center" min="1" step="1">
+
+                <button class="btn btn-outline-secondary" type="button" (click)="inc()">+</button>
+            </div>
+
+            <button class="btn btn-success w-100 m-3" (click)="adicionarAoCarrinho()">
+                Adicionar ao Carrinho
+            </button>
+
+            <button class="btn btn-outline-primary w-100 m-3" [routerLink]="['/']">
+                ← Voltar
+            </button>
+
+
+        </div>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 <div class="container mt-4 row">
   <h2 class="mb-4">Lista de Produtos</h2>
 
-  <!-- Filtro de busca por palavras -->
+  <!-- 🔎 Filtro de busca -->
   <div class="mb-3 col-4">
     <label for="busca" class="form-label text-primary">
       <h5>Buscar:</h5>
@@ -10,8 +10,7 @@
       [(ngModel)]="textoBusca" (input)="filtrarProdutos()">
   </div>
 
-
-  <!-- Filtro de categoria -->
+  <!-- 📂 Filtro de categoria -->
   <div class="mb-3 col-2">
     <label for="categoria" class="form-label text-primary">
       <h5>Filtrar por Categoria:</h5>
@@ -24,82 +23,40 @@
     </select>
   </div>
 
-  <!-- Filtro por preço -->
+  <!-- 💰 Filtro por preço -->
   <div class="mb-3 row col-6">
     <div class="col-md-6">
       <label for="precoMin" class="form-label text-primary">
         <h5>Preço Mínimo:</h5>
       </label>
-      <input type="text" mask="separator.2" thousandSeparator="." decimalMarker="," placeholder="Preço Mínimo"
-        id="precoMin" class="form-control" [(ngModel)]="precoMin" (input)="filtrarProdutos()" placeholder="0,00">
-
+      <input type="text" mask="separator.2" thousandSeparator="." decimalMarker="," id="precoMin" class="form-control"
+        [(ngModel)]="precoMin" (input)="filtrarProdutos()" placeholder="0,00">
     </div>
     <div class="col-md-6">
       <label for="precoMax" class="form-label text-primary">
         <h5>Preço Máximo:</h5>
       </label>
-      <input type="text" mask="separator.2" thousandSeparator="." decimalMarker="," placeholder="Preço Mínimo"
-        id="precoMax" class="form-control" [(ngModel)]="precoMax" (input)="filtrarProdutos()" placeholder="0,00">
+      <input type="text" mask="separator.2" thousandSeparator="." decimalMarker="," id="precoMax" class="form-control"
+        [(ngModel)]="precoMax" (input)="filtrarProdutos()" placeholder="0,00">
     </div>
   </div>
 
-  <!-- Nenhum produto -->
+  <!-- 🚨 Nenhum produto -->
   @if (produtosFiltrados.length === 0) {
   <div class="alert alert-warning text-center">
     Nenhum produto encontrado.
   </div>
   }
 
-  <!-- Lista de produtos -->
+  <!-- 📦 Lista de produtos -->
   <div class="row g-3">
     @for (produto of produtosFiltrados; track produto.id) {
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <div class="card h-100 shadow-sm">
-
-        @if (produto.image) {
-        <img [src]="produto.image" [alt]="produto.title" class="card-img-top">
-        }
-
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title">{{ produto.title }}</h5>
-
-          @if (produto.category) {
-          <p class="text-primary small mb-1">
-            Categoria: {{ produto.category | capitalizeWords }}
-          </p>
-          }
-
-          <!--<p class="card-text small text-muted">{{ produto.description }}</p>-->
-
-          <p class="fw-bold text-primary mb-2">
-            {{ produto.price | currency:'BRL' }}
-          </p>
-
-          <!--@if (produto.rating) {
-          <div>
-            <span class="text-warning">★</span>
-            {{ produto.rating.rate }} ({{ produto.rating.count }} avaliações)
-          </div>
-           }-->
-
-          <div class="d-grid gap-2 mt-3 mt-auto">
-            
-            <button class="btn btn-sm btn-outline-success w-100">
-              Adicionar ao carrinho
-            </button>
-
-
-            <button class="btn btn-sm btn-outline-primary w-100">
-              Ver detalhes
-            </button>
-          </div>
-
-
-        </div>
-      </div>
+    <div class="col-md-3">
+    <app-product-card
+      [produto]="produto"
+      (selecionar)="adicionarAoCarrinho($event)">
+    </app-product-card>
     </div>
-
     }
-
   </div>
 </div>

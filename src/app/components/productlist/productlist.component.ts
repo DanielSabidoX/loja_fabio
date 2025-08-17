@@ -1,15 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { Produto, Rating } from '../../services/product.type.js';
 import { ProductService } from '../../services/product.service.js';
-import { CurrencyPipe } from '@angular/common';
 import { CapitalizeWordsPipe } from '../../helpers/capitalize.pipe.js';
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
 import { AuthService } from '../../services/auth.service.js';
+import { ProductCardComponent } from '../productcard/productcard.component';
+import { CartService } from '../../services/cart.service.js';
 
 @Component({
   selector: 'app-home',
-  imports: [CurrencyPipe, CapitalizeWordsPipe, FormsModule, NgxMaskDirective],
+  standalone: true,
+  imports: [
+    CapitalizeWordsPipe,
+    FormsModule,
+    NgxMaskDirective,
+    ProductCardComponent
+  ],
   templateUrl: './productlist.component.html',
   styleUrl: './productlist.component.css'
 })
@@ -22,13 +29,14 @@ export class ProductListComponent implements OnInit {
   categoriaSelecionada: string = 'todas';
   precoMin: number | null = null;
   precoMax: number | null = null;
-  textoBusca: string = '';   // 🔹 novo campo de busca
+  textoBusca: string = '';
 
   produtosFiltrados: Produto[] = [];
 
   constructor(
     private productService: ProductService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cartService: CartService
   ) { }
 
   ngOnInit(): void {
@@ -36,8 +44,6 @@ export class ProductListComponent implements OnInit {
       next: (produtos) => {
         this.produtos = produtos;
         this.produtosFiltrados = produtos;
-
-        // Extrair categorias únicas
         this.categorias = Array.from(new Set(produtos.map(p => p.category)));
       },
       error: () => {
@@ -53,15 +59,9 @@ export class ProductListComponent implements OnInit {
     const busca = this.textoBusca.toLowerCase().trim();
 
     this.produtosFiltrados = this.produtos.filter(p => {
-      const categoriaOk =
-        this.categoriaSelecionada === 'todas' || p.category === this.categoriaSelecionada;
-
-      const precoOk =
-        (min === null || p.price >= min) &&
-        (max === null || p.price <= max);
-
-      const buscaOk =
-        busca === '' ||
+      const categoriaOk = this.categoriaSelecionada === 'todas' || p.category === this.categoriaSelecionada;
+      const precoOk = (min === null || p.price >= min) && (max === null || p.price <= max);
+      const buscaOk = busca === '' ||
         p.title.toLowerCase().includes(busca) ||
         p.description.toLowerCase().includes(busca);
 
@@ -69,8 +69,16 @@ export class ProductListComponent implements OnInit {
     });
   }
 
+  onProdutoSelecionado(event: { produto: Produto; quantidade: number }) {
+    this.cartService.addToCart(event.produto, event.quantidade);
+  }
+
   get isAuthenticated(): boolean {
     return this.authService.isAuthenticated;
   }
-  
+
+  adicionarAoCarrinho(event: { produto: Produto; quantidade: number }) {
+    this.cartService.addToCart(event.produto, event.quantidade);
+  }
+    
 }

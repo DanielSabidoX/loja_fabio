@@ -1,1 +1,29 @@
-<p>productcard works!</p>
+<div class="card shadow-sm h-100">
+    <img [src]="produto.image" class="card-img-top d-block mx-auto produto-img" [alt]="produto.title">
+
+    <div class="card-body d-flex flex-column">
+        <h5 class="card-title">{{ produto.title }}</h5>
+        <p class="fw-bold text-success">{{ produto.price | currency:'BRL' }}</p>
+    </div>
+
+    <div class="card-footer d-grid gap-2 mt-auto">
+        <button class="btn btn-sm btn-outline-primary fw-bold w-100" [routerLink]="['/product', produto.id]">
+            Detalhes
+        </button>
+        <button class="btn btn-sm btn-outline-success fw-bold w-100" (click)="onSelecionar()">
+            Adicionar ao carrinho
+        </button>
+        <label class="form-label fw-bold mt-2">Quantidade</label>
+<div class="input-group">
+  <button class="btn btn-outline-secondary" type="button" (click)="dec()">−</button>
+  <input type="text"
+         mask="separator.0"
+         thousandSeparator=""
+         [ngModel]="quantidade"
+         (ngModelChange)="onQuantidadeChange($event)"
+         class="form-control text-center"
+         min="1" step="1">
+  <button class="btn btn-outline-secondary" type="button" (click)="inc()">+</button>
+</div>
+    </div>
+</div>

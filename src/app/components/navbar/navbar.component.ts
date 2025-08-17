@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Categories } from '../../services/product.type.js';
 import { AuthService } from '../../services/auth.service.js';
-
+import { CartService } from '../../services/cart.service.js';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink],
+  standalone: true,
+  imports: [RouterLink, CommonModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -14,23 +16,32 @@ export class NavbarComponent implements OnInit {
   tema: string = 'light';
   modo_tema: string = 'Modo Claro';
   categorias: Categories[] = [];
+  cartCount: number = 0;  
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private cartService: CartService
   ) { }
 
   ngOnInit(): void {
-    // Carrega tema salvo
+    // Tema
     const savedTema = localStorage.getItem('tema');
     const savedModoTema = localStorage.getItem('modo_tema');
-
     if (savedTema) {
       this.tema = savedTema;
       this.modo_tema = savedModoTema || 'Modo Claro';
     }
-
-    // Aplica o tema
     document.documentElement.setAttribute('data-bs-theme', this.tema);
+
+    // 👇 escuta carrinho - Conta quantdade de itens diferentes
+    /*this.cartService.items$.subscribe(items => {
+      this.cartCount = items.length;
+    });*/
+
+    this.cartService.items$.subscribe(items => {
+      // soma todas as quantidades de todos os itens
+      this.cartCount = items.reduce((sum, item) => sum + item.quantidade, 0);
+    });
 
   }
 
@@ -49,11 +60,10 @@ export class NavbarComponent implements OnInit {
   }
 
   login() {
-    this.authService.login(); // Atualiza o estado de autenticação
+    this.authService.login();
   }
 
   sair() {
     this.authService.logout();
   }
-
 }

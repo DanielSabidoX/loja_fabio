@@ -1,0 +1,4 @@
+.list-group-item img {
+  object-fit: contain;
+  max-height: 60px;
+}

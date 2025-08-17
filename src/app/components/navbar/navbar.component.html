@@ -11,15 +11,18 @@
             <div class="creditos">
                 <a class="flex-fill mx-2 fw-bold" routerLink="/creditos">Créditos</a>
             </div>
-            <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/carrinho">
+            <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/cart">
                 <i class="bi bi-cart"></i>
-                <span class="badge bg-secondary">Carrinho</span>
+                <span class="badge" [ngClass]="cartCount > 0 ? 'bg-success' : 'bg-danger'">
+                    {{ cartCount }}
+                </span>
             </a>
+
 
             @if (isAuthenticated) {
             <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/perfil">
                 <i class="bi bi-person-check"></i>
-                <span class="badge bg-secondary">Perfil</span>
+                <span class="badge bg-success">Perfil</span>
             </a>
             <a class="navbar-brand flex-fill mx-2 fw-bold" (click)="sair()">
                 <i class="bi bi-box-arrow-right"></i>
@@ -27,12 +30,12 @@
             </a>
             } @else {
             <a class="navbar-brand flex-fill mx-2 fw-bold" (click)="login()">
-            <i class="bi bi-person"></i>
-            <span class="badge bg-secondary">Login</span>
+                <i class="bi bi-person"></i>
+                <span class="badge bg-danger">Realize seu Login</span>
             </a>
             <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/registro">
                 <i class="bi bi-person-add"></i>
-                <span class="badge bg-secondary">Registrar</span>
+                <span class="badge bg-primary">Registrar</span>
             </a>
             }
 
