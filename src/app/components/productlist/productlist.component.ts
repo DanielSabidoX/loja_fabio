@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Produto, Rating } from '../../services/product.type.js';
-import { ProductService } from '../../services/product.service';
+import { ProductService } from '../../services/product.service.js';
 import { CurrencyPipe } from '@angular/common';
-import { CapitalizeWordsPipe } from '../../helpers/capitalize.pipe';
+import { CapitalizeWordsPipe } from '../../helpers/capitalize.pipe.js';
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
 import { AuthService } from '../../services/auth.service.js';
@@ -10,10 +10,10 @@ import { AuthService } from '../../services/auth.service.js';
 @Component({
   selector: 'app-home',
   imports: [CurrencyPipe, CapitalizeWordsPipe, FormsModule, NgxMaskDirective],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  templateUrl: './productlist.component.html',
+  styleUrl: './productlist.component.css'
 })
-export class HomeComponent implements OnInit {
+export class ProductListComponent implements OnInit {
 
   ratings: Rating[] = [];
   produtos: Produto[] = [];
