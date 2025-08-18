@@ -6,6 +6,14 @@
           <i class="bi bi-person-circle me-2"></i>Login
         </h3>
 
+        <!-- Avisos de usuários de teste -->
+        <div class="alert alert-info small">
+          <strong>Usuários de teste:</strong><br>
+          Usuario 0: username: <code>johnd</code>, senha: <code>m38rmF$</code><br>
+          Usuario 1: username: <code>mor_2314</code>, senha: <code>83r5^_</code><br>
+          Para mais usuários consulte <a href="https://fakestoreapi.com/users" target="_blank">https://fakestoreapi.com/users</a>
+        </div>
+
         <form (ngSubmit)="onSubmit()">
           <div class="form-floating mb-3">
             <input
@@ -38,6 +46,7 @@
           </button>
         </form>
 
+        <!-- Mensagem de erro -->
         @if(errorMessage) {
           <div class="alert alert-danger mt-3 rounded-3 small text-center">
             {{ errorMessage }}
@@ -46,7 +55,7 @@
 
         <p class="text-center mt-3 small text-muted">
           Não tem conta? 
-          <a routerLink="/registro" class="text-decoration-none">Cadastre-se</a>
+          <a routerLink="/register" class="text-decoration-none">Cadastre-se</a>
         </p>
       </div>
     </div>

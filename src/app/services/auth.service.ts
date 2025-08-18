@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { CartService } from './cart.service'; // importar CartService
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private toastr: ToastrService,
-    private cartService: CartService // injetar
+    private cartService: CartService,
+    private router: Router
   ) {
     const token = localStorage.getItem('token');
     if (token) {
@@ -38,7 +40,8 @@ export class AuthService {
           this.toastr.info('Login realizado com sucesso!', 'Informe', {
             timeOut: 3000,
             progressBar: true,
-            progressAnimation: "decreasing"
+            progressAnimation: "decreasing",
+            closeButton: true
           });
         }
       })
@@ -48,14 +51,21 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
+    localStorage.removeItem('currentUser');
+    
     this.authState.next(false);
 
     // Limpa o carrinho ao sair
     this.cartService.clearCart();
+  
+    // Redireciona para a página de login 
+    this.router.navigate(['/login'])
 
     this.toastr.info('Logout realizado e carrinho esvaziado!', 'Informe', {
-      timeOut: 2000,
-      progressBar: true
+      timeOut: 3000,
+      progressBar: true,
+      progressAnimation: "decreasing",
+      closeButton: true
     });
   }
 

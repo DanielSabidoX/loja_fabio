@@ -1,0 +1,75 @@
+<div class="container mt-5" >
+  <h2 class="mb-4">Registrar Usuário</h2>
+
+  <!-- Alertas de nível de formulário -->
+  @if (registerForm.hasError('passwordMismatch') && (f['confirmPassword'].touched || f['confirmPassword'].dirty)) {
+    <div class="alert alert-danger">
+      As senhas não coincidem.
+    </div>
+  }
+  @if (submitError) {
+    <div class="alert alert-danger">
+      {{ submitError }}
+    </div>
+  }
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="registerForm" class="needs-validation" novalidate>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Usuário *</label>
+        <input type="text" class="form-control"
+               formControlName="username"
+               [class.is-invalid]="f['username'].touched && f['username'].invalid">
+        @if (f['username'].touched && f['username'].hasError('required')) {
+          <div class="invalid-feedback">Campo obrigatório.</div>
+        }
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">E-mail *</label>
+        <input type="email" class="form-control"
+               formControlName="email"
+               [class.is-invalid]="f['email'].touched && f['email'].invalid">
+        @if (f['email'].touched && f['email'].hasError('required')) {
+          <div class="invalid-feedback">Campo obrigatório.</div>
+        } @else if (f['email'].touched && f['email'].hasError('email')) {
+          <div class="invalid-feedback">E-mail inválido.</div>
+        }
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Senha * <small class="text-muted">(mín. 6)</small></label>
+        <input type="password" class="form-control"
+               formControlName="password"
+               [class.is-invalid]="f['password'].touched && f['password'].invalid">
+        @if (f['password'].touched && f['password'].hasError('required')) {
+          <div class="invalid-feedback">Campo obrigatório.</div>
+        } @else if (f['password'].touched && f['password'].hasError('minlength')) {
+          <div class="invalid-feedback">A senha deve ter pelo menos 6 caracteres.</div>
+        }
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Confirmar Senha *</label>
+        <input type="password" class="form-control"
+               formControlName="confirmPassword"
+               [class.is-invalid]="(f['confirmPassword'].touched || f['confirmPassword'].dirty)
+                                   && (f['confirmPassword'].invalid || registerForm.hasError('passwordMismatch'))">
+        @if (f['confirmPassword'].touched && f['confirmPassword'].hasError('required')) {
+          <div class="invalid-feedback">Campo obrigatório.</div>
+        } @else if ((f['confirmPassword'].touched || f['confirmPassword'].dirty) && registerForm.hasError('passwordMismatch')) {
+          <div class="invalid-feedback">As senhas devem ser iguais.</div>
+        }
+      </div>
+    </div>
+
+    <div class="mt-4 d-flex gap-2">
+      <button class="btn btn-primary"
+              type="submit"
+              [disabled]="loading || registerForm.invalid">
+        {{ loading ? 'Registrando...' : 'Registrar' }}
+      </button>
+      <button class="btn btn-outline-secondary" type="button" (click)="registerForm.reset()">Limpar</button>
+    </div>
+  </form>
+</div>

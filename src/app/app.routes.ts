@@ -6,6 +6,8 @@ import { CartComponent } from './components/cart/cart.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './services/auth.guard';
 import { UserComponent } from './components/user/user.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { RegisterComponent } from './components/register/register.component';
 
 export const routes: Routes = [
     {
@@ -41,8 +43,19 @@ export const routes: Routes = [
     },
     {
         path: 'user',
-        component: UserComponent,
+        loadComponent: () => import('./components/user/user.component').then(m => m.UserComponent),
         canActivate: [AuthGuard],
         title: 'Dados do Usuário'
-    },    
+    },
+    {
+        path: 'admin',
+        loadComponent: () => import('./components/admin/admin.component').then(m => m.AdminComponent),  // Lazzy loading
+        canActivate: [AuthGuard],
+        title: 'Administração'
+    },
+    {
+        path: 'register',
+        loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent),
+        title: 'Registrar Usuário'
+    }
 ];

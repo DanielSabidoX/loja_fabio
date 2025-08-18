@@ -44,7 +44,8 @@ export class CartService {
     this.toastr.success('Produto adicionado ao carrinho com sucesso!', 'Informe', {
       timeOut: 3000,
       progressBar: true,
-      progressAnimation: "decreasing"
+      progressAnimation: "decreasing",
+      closeButton: true
     });
 
   }
@@ -57,7 +58,8 @@ export class CartService {
     this.toastr.info('Produto removido do carrinho com sucesso!', 'Informe', {
       timeOut: 3000,
       progressBar: true,
-      progressAnimation: "decreasing"
+      progressAnimation: "decreasing",
+      closeButton: true
     });
 
   }
@@ -70,7 +72,8 @@ export class CartService {
     this.toastr.success('Produtos removidos do carrinho com sucesso!', 'Informe', {
       timeOut: 3000,
       progressBar: true,
-      progressAnimation: "decreasing"
+      progressAnimation: "decreasing",
+      closeButton: true
     });
 
   }

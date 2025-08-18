@@ -42,7 +42,12 @@ export class UserService {
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl).pipe(
       catchError(err => {
-        this.toastr.error('Erro ao buscar usuários.', 'Atenção', { timeOut: 5000 });
+        this.toastr.error('Erro ao buscar usuários.', 'Atenção', {
+            timeOut: 3000,
+            progressBar: true,
+            progressAnimation: "decreasing",
+            closeButton: true
+          });
         return of([]);
       })
     );
@@ -56,7 +61,12 @@ export class UserService {
 
     return this.http.get<User>(`${this.apiUrl}/${id}`).pipe(
       catchError(err => {
-        this.toastr.error('Erro ao buscar usuário.', 'Atenção', { timeOut: 5000 });
+        this.toastr.error('Erro ao buscar usuário.', 'Atenção', {
+            timeOut: 3000,
+            progressBar: true,
+            progressAnimation: "decreasing",
+            closeButton: true
+          });
         return of(null as any);
       })
     );
@@ -65,15 +75,30 @@ export class UserService {
   // Criar usuário
   createUser(user: Partial<User>): Observable<User> {
     return this.http.post<User>(this.apiUrl, user).pipe(
+      tap(newUser => {
+        if (newUser) {
+          this.toastr.success('Usuário criado com sucesso, porém não é possível utilizar devido ao FAKEAPI não ter de fato criado o usuario em sua API.', 'Sucesso', {
+            timeOut: 20000,
+            progressBar: true,
+            progressAnimation: "decreasing",
+            closeButton: true
+          });
+        }
+      }),
       catchError(err => {
-        this.toastr.error('Erro ao criar usuário.', 'Atenção', { timeOut: 5000 });
+        this.toastr.error('Erro ao criar usuário.', 'Atenção', {
+          timeOut: 5000,
+          progressBar: true,
+          progressAnimation: "decreasing",
+          closeButton: true
+        });
         return of(null as any);
       })
     );
   }
 
-  // Atualizar usuário
-  updateUser(id: number, user: Partial<User>): Observable<User> {
+  // Atualizar usuário - ainda não implementado CRUD de usuários
+  /*updateUser(id: number, user: Partial<User>): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/${id}`, user).pipe(
       tap(updated => {
         // Atualiza cache se for o usuário logado
@@ -101,5 +126,6 @@ export class UserService {
         return of(undefined);
       })
     );
-  }
+  }*/
+
 }
