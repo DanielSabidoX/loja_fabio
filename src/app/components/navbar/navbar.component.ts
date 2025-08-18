@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service.js';
 import { CartService } from '../../services/cart.service.js';
 import { CapitalizeWordsPipe } from '../../helpers/capitalize.pipe.js';
+import { UserService } from '../../services/user.service.js';
 
 @Component({
   selector: 'app-navbar',
@@ -50,11 +51,12 @@ export class NavbarComponent implements OnInit {
     return this.authService.isAuthenticated;
   }
 
-get username(): string {
-  return this.authService.getUsername() || '';
-}
+  get username(): string {
+    return this.authService.getUsername() || '';
+  }
 
   sair() {
     this.authService.logout();
   }
+
 }

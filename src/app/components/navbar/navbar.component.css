@@ -61,4 +61,8 @@ header, section {
 }
 
 
+header.theme-gradient {
+  background: linear-gradient(135deg, var(--grad-start), var(--grad-mid) 60%, var(--grad-end));
+  color: var(--bs-body-color);
+}
 

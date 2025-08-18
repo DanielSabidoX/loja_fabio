@@ -1,3 +1,15 @@
 body {
   padding-top: 200px; 
 }
+
+:root {
+  --grad-start: #f9f9f9;
+  --grad-mid: #d6d6d6;
+  --grad-end: #b0b0b0;
+}
+
+:root[data-bs-theme="dark"] {
+  --grad-start: #1a1a1a;
+  --grad-mid: #2c2c2c;
+  --grad-end: #444444;
+}
