@@ -5,6 +5,7 @@ import { ProductDetailComponent } from './components/productdetail/productdetail
 import { CartComponent } from './components/cart/cart.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './services/auth.guard';
+import { UserComponent } from './components/user/user.component';
 
 export const routes: Routes = [
     {
@@ -37,5 +38,11 @@ export const routes: Routes = [
         path: 'login',
         component: LoginComponent,
         title: 'Login'
-    }
+    },
+    {
+        path: 'user',
+        component: UserComponent,
+        canActivate: [AuthGuard],
+        title: 'Dados do Usuário'
+    },    
 ];

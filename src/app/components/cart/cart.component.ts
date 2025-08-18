@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { CartService } from '../../services/cart.service';
-import { CartItem } from '../../services/cart-item.type';
+import { CartItem } from '../../types/cart-item.type';
 import { AuthService } from '../../services/auth.service';  
 import { RouterLink } from '@angular/router';
 
@@ -18,7 +18,7 @@ export class CartComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
-    private authService: AuthService // 
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {

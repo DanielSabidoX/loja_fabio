@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Produto, Categories } from './product.type.js';
+import { Produto, Categories } from '../types/product.type.js';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';

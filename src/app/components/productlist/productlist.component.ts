@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Produto, Rating } from '../../services/product.type.js';
+import { Produto, Rating } from '../../types/product.type.js';
 import { ProductService } from '../../services/product.service.js';
 import { CapitalizeWordsPipe } from '../../helpers/capitalize.pipe.js';
 import { FormsModule } from '@angular/forms';
@@ -80,5 +80,5 @@ export class ProductListComponent implements OnInit {
   adicionarAoCarrinho(event: { produto: Produto; quantidade: number }) {
     this.cartService.addToCart(event.produto, event.quantidade);
   }
-    
+
 }
