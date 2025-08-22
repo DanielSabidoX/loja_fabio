@@ -74,8 +74,8 @@ export class ProductListComponent implements OnInit {
   }
 
   get isAuthenticated(): boolean {
-    return this.authService.isAuthenticated;
-  }
+    return this.authService.isAuthenticated();
+  }  
 
   adicionarAoCarrinho(event: { produto: Produto; quantidade: number }) {
     this.cartService.addToCart(event.produto, event.quantidade);

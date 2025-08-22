@@ -1,11 +1,10 @@
 <div class="container mt-4">
 
-    <div class="bg-danger text-white p-3 rounded mb-4">
+    <div class="alert alert-info small">
         <h5 class="text-center">Atenção</h5>
         <p class="text-center">As alterações realizadas refletirão na lista de produtos, porém ao atualizar a página (F5) as alterações serão perdidas devido ao FAKE API de fato não atualizar, criar ou excluir o produto.</p>
         
     </div>
-
 
   <h2>Administração de Produtos</h2>
 
@@ -38,20 +37,20 @@
   </table>
 
   <!-- Modal Bootstrap para criar/editar -->
-  <div class="modal fade" id="produtoModal" tabindex="-1" aria-labelledby="produtoModalLabel" aria-hidden="true">
+  <div class="modal fade draggable" id="produtoModal" tabindex="-1" aria-labelledby="produtoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="produtoModalLabel">{{ editProduto.id ? 'Editar Produto' : 'Criar Produto' }}</h5>
+        <div class="modal-header" >
+          <h5 class="modal-title fw-bold" id="produtoModalLabel">{{ editProduto.id ? 'Editar Produto' : 'Criar Produto' }}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label>Título</label>
+            <label class="fw-bold">Título</label>
             <input class="form-control" [(ngModel)]="editProduto.title">
           </div>
             <div class="mb-3">
-                <label>Preço</label>         
+                <label class="fw-bold">Preço</label>         
                 <input class="form-control" 
                     type="text"
                     [(ngModel)]="editProduto.price"
@@ -62,17 +61,17 @@
             </div>
 
           <div class="mb-3">
-            <label>Categoria</label>
+            <label class="fw-bold">Categoria</label>
             <select class="form-control" [(ngModel)]="editProduto.category">
               <option *ngFor="let c of categorias">{{ c }}</option>
             </select>
           </div>
           <div class="mb-3">
-            <label>Descrição</label>
+            <label class="fw-bold">Descrição</label>
             <textarea class="form-control" [(ngModel)]="editProduto.description"></textarea>
           </div>
           <div class="mb-3">
-            <label>Imagem URL</label>
+            <label class="fw-bold">Imagem URL</label>
             <input class="form-control" [(ngModel)]="editProduto.image">
           </div>
         </div>
@@ -86,10 +85,10 @@
 </div>
 
 <!-- Modal de Confirmação de Exclusão -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+<div class="modal fade draggable" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header" >
         <h5 class="modal-title" id="confirmDeleteModalLabel">Excluir Produto</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
       </div>

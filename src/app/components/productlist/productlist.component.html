@@ -1,7 +1,10 @@
 <div class="container mt-4 row">
-  <h2 class="mb-4">Lista de Produtos</h2>
+  <div class="d-flex justify-content-start align-items-center  col-12">
+    <h2 class="mr-2">Lista de Produtos</h2>
+    <h2 class="badge bg-info mx-2 fs-5">Total de produtos exibidos: {{ produtosFiltrados.length }}</h2>
+  </div>
 
-  <!-- 🔎 Filtro de busca -->
+  <!-- Filtro de busca -->
   <div class="mb-3 col-4">
     <label for="busca" class="form-label text-primary">
       <h5>Buscar:</h5>
@@ -10,7 +13,7 @@
       [(ngModel)]="textoBusca" (input)="filtrarProdutos()">
   </div>
 
-  <!-- 📂 Filtro de categoria -->
+  <!-- Filtro de categoria -->
   <div class="mb-3 col-2">
     <label for="categoria" class="form-label text-primary">
       <h5>Filtrar por Categoria:</h5>
@@ -23,7 +26,7 @@
     </select>
   </div>
 
-  <!-- 💰 Filtro por preço -->
+  <!-- Filtro por preço -->
   <div class="mb-3 row col-6">
     <div class="col-md-6">
       <label for="precoMin" class="form-label text-primary">
@@ -41,7 +44,7 @@
     </div>
   </div>
 
-  <!-- 🚨 Nenhum produto -->
+  <!-- Nenhum produto -->
   @if (produtosFiltrados.length === 0) {
   <div class="alert alert-warning text-center">
     Nenhum produto encontrado.
@@ -49,7 +52,9 @@
   }
 
   <!-- 📦 Lista de produtos -->
+   
   <div class="row g-3">
+    
     @for (produto of produtosFiltrados; track produto.id) {
     <div class="col-md-3">
     <app-product-card

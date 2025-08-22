@@ -29,9 +29,9 @@
 
             <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/cart">
                 <i class="bi bi-cart"></i>
-                <span class="badge" [ngClass]="cartCount > 0 ? 'bg-success' : 'bg-danger'">
-                    {{ cartCount }}
-                </span>
+                    <span class="badge" [ngClass]="cartCount() > 0 ? 'bg-success' : 'bg-danger'">
+                        {{ cartCount() }}
+                    </span>
             </a>
 
             <!-- Autenticado -->
@@ -85,9 +85,11 @@
                 <a class="nav-link" routerLink="/" routerLinkActive="active">Produtos</a>
             </div>
 
-            <div class="navbar-nav fw-bold navbar-brand">
-                <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
-            </div>
+            @if (isAuthenticated && username === 'johnd') {
+                <div class="navbar-nav fw-bold navbar-brand">
+                    <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
+                </div>
+            }
 
         </div>
     </section>

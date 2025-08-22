@@ -1,99 +1,42 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Produto } from '../types/product.type';
-import { ToastrService } from 'ngx-toastr';
+import { Injectable, signal } from '@angular/core';
 import { CartItem } from '../types/cart-item.type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private items: CartItem[] = [];
-  private itemsSubject = new BehaviorSubject<CartItem[]>([]);
+  items = signal<CartItem[]>([]);
 
-  items$ = this.itemsSubject.asObservable();
+  addToCart(produto: any, quantidade: number = 1) {
+    const current = this.items();
+    const existing = current.find(item => item.produto.id === produto.id);
 
-  constructor(private toastr: ToastrService) {
-    this.loadFromStorage();
-  }
-
-  private saveToStorage() {
-    localStorage.setItem('cart', JSON.stringify(this.items));
-  }
-
-  private loadFromStorage() {
-    const data = localStorage.getItem('cart');
-    if (data) {
-      this.items = JSON.parse(data);
-      this.itemsSubject.next(this.items);
-    }
-  }
-
-  addToCart(produto: Produto, quantidade: number = 1) {
-    const existente = this.items.find(i => i.produto.id === produto.id);
-
-    if (existente) {
-      existente.quantidade += quantidade;
+    if (existing) {
+      this.items.update(items =>
+        items.map(item =>
+          item.produto.id === produto.id
+            ? { ...item, quantidade: item.quantidade + quantidade }
+            : item
+        )
+      );
     } else {
-      this.items.push({ produto, quantidade });
+      this.items.update(items => [...items, { produto, quantidade }]);
     }
-
-    this.itemsSubject.next(this.items);
-    this.saveToStorage();
-
-    this.toastr.success('Produto adicionado ao carrinho com sucesso!', 'Informe', {
-      timeOut: 3000,
-      progressBar: true,
-      progressAnimation: "decreasing",
-      closeButton: true
-    });
-
-  }
-
-  removeFromCart(produtoId: number) {
-    this.items = this.items.filter(i => i.produto.id !== produtoId);
-    this.itemsSubject.next(this.items);
-    this.saveToStorage();
-
-    this.toastr.info('Produto removido do carrinho com sucesso!', 'Informe', {
-      timeOut: 3000,
-      progressBar: true,
-      progressAnimation: "decreasing",
-      closeButton: true
-    });
-
-  }
-
-  clearCart() {
-    this.items = [];
-    this.itemsSubject.next(this.items);
-    this.saveToStorage();
-
-    this.toastr.success('Produtos removidos do carrinho com sucesso!', 'Informe', {
-      timeOut: 3000,
-      progressBar: true,
-      progressAnimation: "decreasing",
-      closeButton: true
-    });
-
-  }
-
-  getItems(): CartItem[] {
-    return this.items;
-  }
-
-  /** Retorna a soma total de itens */
-  getCount(): number {
-    return this.items.reduce((total, item) => total + item.quantidade, 0);
   }
 
   updateQuantity(produtoId: number, quantidade: number) {
-    const item = this.items.find(i => i.produto.id === produtoId);
-    if (item) {
-      item.quantidade = Math.max(1, quantidade); // evita zero ou negativo
-      this.itemsSubject.next(this.items);
-      this.saveToStorage();
-    }
+    this.items.update(items =>
+      items.map(item =>
+        item.produto.id === produtoId ? { ...item, quantidade } : item
+      )
+    );
   }
 
+  removeFromCart(produtoId: number) {
+    this.items.update(items => items.filter(item => item.produto.id !== produtoId));
+  }
+
+  clearCart() {
+    this.items.set([]);
+  }
 }

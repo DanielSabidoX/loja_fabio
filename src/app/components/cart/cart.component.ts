@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { CartService } from '../../services/cart.service';
-import { CartItem } from '../../types/cart-item.type';
-import { AuthService } from '../../services/auth.service';  
 import { RouterLink } from '@angular/router';
+import { CartService } from '../../services/cart.service';
+import { AuthService } from '../../services/auth.service';  
 
 @Component({
   selector: 'app-cart',
@@ -12,28 +11,16 @@ import { RouterLink } from '@angular/router';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
-export class CartComponent implements OnInit {
-  items: CartItem[] = [];
-  total: number = 0;
+export class CartComponent {
+  private cartService = inject(CartService);
+  private authService = inject(AuthService);
 
-  constructor(
-    private cartService: CartService,
-    private authService: AuthService
-  ) {}
+  items = this.cartService.items;
+  isAuthenticated = this.authService.isAuthenticated;
 
-  ngOnInit(): void {
-    this.cartService.items$.subscribe(items => {
-      this.items = items;
-      this.calcularTotal();
-    });
-  }
-
-  calcularTotal() {
-    this.total = this.items.reduce(
-      (sum, item) => sum + (item.produto.price * item.quantidade), 
-      0
-    );
-  }
+  total = computed(() =>
+    this.items().reduce((sum, item) => sum + (item.produto.price * item.quantidade), 0)
+  );
 
   removerProduto(produtoId: number) {
     this.cartService.removeFromCart(produtoId);
@@ -48,12 +35,8 @@ export class CartComponent implements OnInit {
     this.cartService.clearCart();
   }
 
-  get isAuthenticated(): boolean {
-    return this.authService.isAuthenticated; // 
-  }
-
   finalizarCompra() {
-    if (!this.isAuthenticated) return; // segurança extra
+    if (!this.isAuthenticated()) return;
     alert('Compra finalizada com sucesso!');
     this.limparCarrinho();
   }

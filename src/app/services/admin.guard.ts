@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -13,7 +13,11 @@ export class AuthGuard implements CanActivate {
 
     const username = localStorage.getItem('username');
 
-    if (this.authService.isAuthenticated()) {
+    // Permite acesso apenas se o usuário estiver autenticado e for 'johnd' (administrador)
+    // Feito assim para simplificar o exemplo, em um sistema real, 
+    // usariamos as roles/permissions fornecidas pela API no lugar do username
+    // Já que a API FakeStore não fornece roles/permissions
+    if (this.authService.isAuthenticated() && username === 'johnd') {
       return true;
     }
 

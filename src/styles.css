@@ -13,3 +13,9 @@ body {
   --grad-mid: #2c2c2c;
   --grad-end: #444444;
 }
+
+.modal-header {
+  background: linear-gradient(135deg, var(--grad-start), var(--grad-mid) 60%, var(--grad-end));
+  color: var(--bs-body-color);
+}
+

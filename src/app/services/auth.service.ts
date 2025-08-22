@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
-import { CartService } from './cart.service'; // importar CartService
+import { CartService } from './cart.service';
 import { Router } from '@angular/router';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private authState = new BehaviorSubject<boolean>(false);
-  isAuthenticated$ = this.authState.asObservable();
+  isAuthenticated = signal<boolean>(false);
+  token = signal<string | null>(localStorage.getItem('token')); // ✅ novo signal do token
   private apiUrl = 'https://fakestoreapi.com/auth/login';
 
   constructor(
@@ -21,21 +21,20 @@ export class AuthService {
   ) {
     const token = localStorage.getItem('token');
     if (token) {
-      this.authState.next(true);
+      this.isAuthenticated.set(true);
+      this.token.set(token); // inicializa o signal do token
     }
   }
 
-  get isAuthenticated(): boolean {
-    return this.authState.value;
-  }
-
-  login(username: string, password: string): Observable<any> {
+  login(username: string, password: string) {
     return this.http.post<{ token: string }>(this.apiUrl, { username, password }).pipe(
       tap(response => {
-        if (response && response.token) {
+        if (response?.token) {
           localStorage.setItem('token', response.token);
           localStorage.setItem('username', username);
-          this.authState.next(true);
+
+          this.isAuthenticated.set(true);
+          this.token.set(response.token); // atualiza o signal do token
 
           this.toastr.info('Login realizado com sucesso!', 'Informe', {
             timeOut: 3000,
@@ -48,18 +47,16 @@ export class AuthService {
     );
   }
 
-  logout(): void {
+  logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     localStorage.removeItem('currentUser');
-    
-    this.authState.next(false);
 
-    // Limpa o carrinho ao sair
+    this.isAuthenticated.set(false);
+    this.token.set(null); // limpa o token do signal
+
     this.cartService.clearCart();
-  
-    // Redireciona para a página de login 
-    this.router.navigate(['/login'])
+    this.router.navigate(['/login']);
 
     this.toastr.info('Logout realizado e carrinho esvaziado!', 'Informe', {
       timeOut: 3000,

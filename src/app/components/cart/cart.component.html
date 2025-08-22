@@ -1,53 +1,51 @@
 <div class="container mt-5 pt-4">
     <h2 class="mb-4">🛒 Meu Carrinho</h2>
 
-    @if (items.length === 0) {
-    <div class="alert alert-info text-center">
+    @if (items().length === 0) {
+      <div class="alert alert-info text-center">
         Seu carrinho está vazio.
-    </div>
+      </div>
     } @else {
-        <div class="list-group">
-            @for (item of items; track item.produto.id) {
-            <div class="list-group-item d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                    <img [src]="item.produto.image" alt="{{item.produto.title}}" width="60" class="me-3">
-                    <div>
-                        <h5 class="mb-1">{{ item.produto.title }}</h5>
-                        <p class="mb-0 text-muted">
-                            {{ item.produto.price | currency:'BRL' }} x {{ item.quantidade }}
-                            = <strong>{{ (item.produto.price * item.quantidade) | currency:'BRL' }}</strong>
-                        </p>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm me-2" [value]="item.quantidade" min="1"
-                        (change)="mudarQuantidade(item.produto.id, $event)">
-                    <button class="btn btn-danger btn-sm" (click)="removerProduto(item.produto.id)">
-                        <i class="bi bi-trash"></i> Remover
-                    </button>
-                </div>
+      <div class="list-group">
+        @for (item of items(); track item.produto.id) {
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+              <img [src]="item.produto.image" alt="{{item.produto.title}}" width="60" class="me-3">
+              <div>
+                <h5 class="mb-1">{{ item.produto.title }}</h5>
+                <p class="mb-0 text-muted">
+                  {{ item.produto.price | currency:'BRL' }} x {{ item.quantidade }}
+                  = <strong>{{ (item.produto.price * item.quantidade) | currency:'BRL' }}</strong>
+                </p>
+              </div>
             </div>
-            }
-        </div>
-
-        <div class="mt-4 text-end">
-            <h4>Total: <span class="text-success">{{ total | currency:'BRL' }}</span></h4>
-            <button class="btn btn-outline-danger " (click)="limparCarrinho()">Esvaziar</button>
-
-            <button class="btn btn-success mx-2" [disabled]="!isAuthenticated" (click)="finalizarCompra()">
-                Finalizar Compra
-            </button>
-
-            <button class="btn btn-outline-primary ml-2" [routerLink]="['/']">
-            ← Continuar Comprando
-            </button>            
-
-            <!-- Mensagem se não estiver logado -->
-            <div *ngIf="!isAuthenticated" class="text-danger mt-2">
-                ⚠️ Você precisa estar logado para finalizar a compra.
+            <div class="d-flex align-items-center">
+              <input type="number" class="form-control form-control-sm me-2"
+                     [value]="item.quantidade" min="1"
+                     (change)="mudarQuantidade(item.produto.id, $event)">
+              <button class="btn btn-danger btn-sm" (click)="removerProduto(item.produto.id)">
+                <i class="bi bi-trash"></i> Remover
+              </button>
             </div>
-        </div>
+          </div>
+        }
+      </div>
 
+      <div class="mt-4 text-end">
+        <h4>Total: <span class="text-success">{{ total() | currency:'BRL' }}</span></h4>
+        <button class="btn btn-outline-danger " (click)="limparCarrinho()">Esvaziar</button>
+
+        <button class="btn btn-success mx-2" [disabled]="!isAuthenticated()" (click)="finalizarCompra()">
+          Finalizar Compra
+        </button>
+
+        <button class="btn btn-outline-primary ml-2" [routerLink]="['/']">
+          ← Continuar Comprando
+        </button>            
+
+        <div *ngIf="!isAuthenticated()" class="text-danger mt-2">
+          ⚠️ Você precisa estar logado para finalizar a compra.
+        </div>
+      </div>
     }
-
 </div>

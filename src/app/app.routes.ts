@@ -5,9 +5,7 @@ import { ProductDetailComponent } from './components/productdetail/productdetail
 import { CartComponent } from './components/cart/cart.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './services/auth.guard';
-import { UserComponent } from './components/user/user.component';
-import { AdminComponent } from './components/admin/admin.component';
-import { RegisterComponent } from './components/register/register.component';
+import { AdminGuard } from './services/admin.guard';
 
 export const routes: Routes = [
     {
@@ -49,8 +47,8 @@ export const routes: Routes = [
     },
     {
         path: 'admin',
-        loadComponent: () => import('./components/admin/admin.component').then(m => m.AdminComponent),  // Lazzy loading
-        canActivate: [AuthGuard],
+        loadComponent: () => import('./components/admin/admin.component').then(m => m.AdminComponent),
+        canActivate: [AdminGuard],
         title: 'Administração'
     },
     {

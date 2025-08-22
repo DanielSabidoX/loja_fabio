@@ -4,6 +4,7 @@ import { Produto, Categories } from '../../types/product.type';
 import { ProductService } from '../../services/product.service';
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
+import interact from 'interactjs';
 
 declare var bootstrap: any; // para usar JS do Bootstrap
 
@@ -38,6 +39,23 @@ export class AdminComponent implements OnInit {
 
   }
 
+ngAfterViewInit() {
+  interact('.modal.draggable .modal-dialog').draggable({
+    allowFrom: '.modal-header', // arrasta apenas pelo header
+    listeners: {
+      move(event) {
+        const target = event.target as HTMLElement;
+        const x = (parseFloat(target.getAttribute('data-x') || '0')) + event.dx;
+        const y = (parseFloat(target.getAttribute('data-y') || '0')) + event.dy;
+
+        target.style.transform = `translate(${x}px, ${y}px)`;
+        target.setAttribute('data-x', x.toString());
+        target.setAttribute('data-y', y.toString());
+      }
+    }
+  });
+}
+
   loadProducts() {
     this.productService.findProducts().subscribe(p => this.produtos = p);
   }
@@ -56,12 +74,12 @@ export class AdminComponent implements OnInit {
   }
 
   saveProduto() {
-    if (this.editProduto.price != null) { 
+    if (this.editProduto.price != null) {
       const numericPrice = Number(
-        String(this.editProduto.price)   
-          .replace(/\./g, '')           
-          .replace(',', '.')            
-          .replace('R$ ', '')           
+        String(this.editProduto.price)
+          .replace(/\./g, '')
+          .replace(',', '.')
+          .replace('R$ ', '')
       );
       this.editProduto.price = numericPrice;
     }
@@ -101,4 +119,9 @@ export class AdminComponent implements OnInit {
   resetForm() {
     this.editProduto = {};
   }
+
+
+
+
+
 }

@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth.service.js';
-import { CartService } from '../../services/cart.service.js';
-import { CapitalizeWordsPipe } from '../../helpers/capitalize.pipe.js';
-import { UserService } from '../../services/user.service.js';
+import { AuthService } from '../../services/auth.service';
+import { CartService } from '../../services/cart.service';
+import { CapitalizeWordsPipe } from '../../helpers/capitalize.pipe';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,17 +13,19 @@ import { UserService } from '../../services/user.service.js';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   tema: string = 'light';
   modo_tema: string = 'Modo Claro';
-  cartCount: number = 0;
 
-  constructor(
-    public authService: AuthService,
-    private cartService: CartService
-  ) { }
+  private cartService = inject(CartService);
+  authService = inject(AuthService);
 
-  ngOnInit(): void {
+  // cartCount sempre reativo
+  cartCount = computed(() =>
+    this.cartService.items().reduce((sum, item) => sum + item.quantidade, 0)
+  );
+
+  constructor() {
     const savedTema = localStorage.getItem('tema');
     const savedModoTema = localStorage.getItem('modo_tema');
     if (savedTema) {
@@ -31,10 +33,6 @@ export class NavbarComponent implements OnInit {
       this.modo_tema = savedModoTema || 'Modo Claro';
     }
     document.documentElement.setAttribute('data-bs-theme', this.tema);
-
-    this.cartService.items$.subscribe(items => {
-      this.cartCount = items.reduce((sum, item) => sum + item.quantidade, 0);
-    });
   }
 
   toggleTheme(event: Event): void {
@@ -48,7 +46,7 @@ export class NavbarComponent implements OnInit {
   }
 
   get isAuthenticated(): boolean {
-    return this.authService.isAuthenticated;
+    return this.authService.isAuthenticated();
   }
 
   get username(): string {
@@ -58,5 +56,4 @@ export class NavbarComponent implements OnInit {
   sair() {
     this.authService.logout();
   }
-
 }
