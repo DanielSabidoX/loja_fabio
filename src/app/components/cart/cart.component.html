@@ -49,3 +49,29 @@
       </div>
     }
 </div>
+
+<!-- Modal de finalização da compra -->
+<div class="modal fade show" [class.d-block]="showModal()" tabindex="-1" *ngIf="showModal()">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Compra realizada com sucesso!</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="fecharModal()"></button>
+      </div>
+      <div class="modal-body" *ngIf="compraFinalizada() as compra">
+        <p><strong>Produtos:</strong></p>
+        <ul>
+          <li *ngFor="let item of compra.produtos">
+            {{ item.produto.title }} x {{ item.quantidade }} = {{ (item.produto.price * item.quantidade) | currency:'BRL' }}
+          </li>
+        </ul>
+        <p><strong>Total:</strong> {{ compra.total | currency:'BRL' }}</p>
+        <p><strong>Endereço de entrega:</strong> {{ compra.endereco }}</p>
+        <p><strong>Prazo de entrega estimado:</strong> {{ compra.prazoEntrega | date:'shortDate' }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="fecharModal()">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
