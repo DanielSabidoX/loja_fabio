@@ -39,7 +39,6 @@ export class RegisterComponent {
     );
   }
 
-  // Acesso prático aos controles no template
   get f() { return this.registerForm.controls; }
 
   onSubmit(): void {
@@ -66,8 +65,8 @@ export class RegisterComponent {
           return;
         }
 
-      this.registerForm.reset(); // limpa o formulário
-      // opcional: limpa estados de validação
+      this.registerForm.reset(); 
+      // limpa estados de validação
       Object.keys(this.registerForm.controls).forEach(key => {
         this.registerForm.controls[key].setErrors(null);
       });        

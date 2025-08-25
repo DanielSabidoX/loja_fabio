@@ -39,22 +39,22 @@ export class AdminComponent implements OnInit {
 
   }
 
-ngAfterViewInit() {
-  interact('.modal.draggable .modal-dialog').draggable({
-    allowFrom: '.modal-header', // arrasta apenas pelo header
-    listeners: {
-      move(event) {
-        const target = event.target as HTMLElement;
-        const x = (parseFloat(target.getAttribute('data-x') || '0')) + event.dx;
-        const y = (parseFloat(target.getAttribute('data-y') || '0')) + event.dy;
+  ngAfterViewInit() {
+    interact('.modal.draggable .modal-dialog').draggable({
+      allowFrom: '.modal-header', // arrasta apenas pelo header
+      listeners: {
+        move(event) {
+          const target = event.target as HTMLElement;
+          const x = (parseFloat(target.getAttribute('data-x') || '0')) + event.dx;
+          const y = (parseFloat(target.getAttribute('data-y') || '0')) + event.dy;
 
-        target.style.transform = `translate(${x}px, ${y}px)`;
-        target.setAttribute('data-x', x.toString());
-        target.setAttribute('data-y', y.toString());
+          target.style.transform = `translate(${x}px, ${y}px)`;
+          target.setAttribute('data-x', x.toString());
+          target.setAttribute('data-y', y.toString());
+        }
       }
-    }
-  });
-}
+    });
+  }
 
   loadProducts() {
     this.productService.findProducts().subscribe(p => this.produtos = p);

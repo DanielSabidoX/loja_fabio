@@ -19,3 +19,6 @@ body {
   color: var(--bs-body-color);
 }
 
+.modal.draggable .modal-header {
+  cursor: move;
+}
