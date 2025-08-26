@@ -1,0 +1,18 @@
+{
+    "NAV": {
+        "HOME": "Home",
+        "BUY" : "Shop Now",
+        "CLIENT" : "Guest",
+        "CREDITS": "Credits",
+        "STORE": "Store",
+        "PRODUCTS": "Products",
+        "CART": "Cart",
+        "LOGIN": "Login",
+        "REGISTER": "Register",
+        "ADMIN": "Admin",
+        "LOGOUT": "Logout",
+        "PROFILE": "Profile",
+        "MESSAGE": "Please Login",
+        "ALERT": "To complete purchases added to the cart, you need to be authenticated."
+    }
+}

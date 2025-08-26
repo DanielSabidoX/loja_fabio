@@ -5,11 +5,12 @@ import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 import { CapitalizeWordsPipe } from '../../helpers/capitalize.pipe';
 import { UserService } from '../../services/user.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, CommonModule, CapitalizeWordsPipe],
+  imports: [RouterLink, CommonModule, CapitalizeWordsPipe, TranslateModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
@@ -25,7 +26,7 @@ export class NavbarComponent {
     this.cartService.items().reduce((sum, item) => sum + item.quantidade, 0)
   );
 
-  constructor() {
+  constructor(private translate: TranslateService) {
     const savedTema = localStorage.getItem('tema');
     const savedModoTema = localStorage.getItem('modo_tema');
     if (savedTema) {
@@ -33,6 +34,23 @@ export class NavbarComponent {
       this.modo_tema = savedModoTema || 'Modo Claro';
     }
     document.documentElement.setAttribute('data-bs-theme', this.tema);
+
+    // idiomas suportados
+    translate.addLangs(['en', 'pt']);
+    translate.setDefaultLang('pt');
+
+    // pega do localStorage ou navegador
+    const savedLang = localStorage.getItem('lang');
+    const browserLang = translate.getBrowserLang();
+
+    translate.use(
+      savedLang && ['pt', 'en'].includes(savedLang)
+        ? savedLang
+        : browserLang && ['pt', 'en'].includes(browserLang)
+          ? browserLang
+          : 'pt'
+    );
+
   }
 
   toggleTheme(event: Event): void {
@@ -56,4 +74,11 @@ export class NavbarComponent {
   sair() {
     this.authService.logout();
   }
+
+  // troca dinamicamente o idioma
+  changeLang(lang: string) {
+    this.translate.use(lang);
+    localStorage.setItem('lang', lang); // opcional: salvar preferência
+  }
+
 }

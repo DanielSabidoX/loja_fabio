@@ -3,28 +3,31 @@
 
         <div class="ico-loja d-flex align-items-center">
             <a class="flex-fill mx-2 fw-bold">
-                <i class="bi bi-shop me-2"></i>Loja<br>Fábio
+                <i class="bi bi-shop me-2"></i>{{ 'NAV.STORE' | translate }}<br>Fábio
             </a>
         </div>
 
         <div class="ms-auto d-flex align-items-center">
             @if (isAuthenticated) {
             <h1 class="navbar-text flex-fill mx-2">
-                Boas compras, <span class="fw-bold">{{ (username) | capitalizeWords }}</span>
+                {{ 'NAV.BUY' | translate }}, <span class="fw-bold">{{ (username) | capitalizeWords }}</span>
             </h1>
             } @else {
             <h1 class="navbar-text flex-fill mx-2">
-                Boas compras, <span class="fw-bold">Visitante</span>
+                {{ 'NAV.BUY' | translate }}, <span class="fw-bold">{{ 'NAV.CLIENT' | translate }}</span>
             </h1>
             }
         </div>
 
         <div class="d-flex align-items-center ms-auto">
 
-
+            <div class="language-switcher m-3">
+            <button class="mx-3" (click)="changeLang('pt')">🇧🇷 Português</button>
+            <button (click)="changeLang('en')">🇺🇸 English</button>
+            </div>            
 
             <div class="creditos">
-                <a class="flex-fill mx-2 fw-bold" routerLink="/creditos">Créditos</a>
+                <a class="flex-fill mx-2 fw-bold" routerLink="/creditos">{{ 'NAV.CREDITS' | translate }}</a>
             </div>
 
             <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/cart">
@@ -39,20 +42,20 @@
 
             <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/user">
                 <i class="bi bi-person-check"></i>
-                <span class="badge bg-success">Perfil</span>
+                <span class="badge bg-success">{{ 'NAV.PROFILE' | translate }}</span>
             </a>
             <a class="navbar-brand flex-fill mx-2 fw-bold" (click)="sair()">
                 <i class="bi bi-box-arrow-right"></i>
-                <span class="badge bg-secondary">Sair</span>
+                <span class="badge bg-secondary">{{ 'NAV.LOGOUT' | translate }}</span>
             </a>
             } @else {
             <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/login">
                 <i class="bi bi-person"></i>
-                <span class="badge bg-danger">Realize seu Login</span>
+                <span class="badge bg-danger">{{ 'NAV.MESSAGE' | translate }}</span>
             </a>
             <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/register">
                 <i class="bi bi-person-add"></i>
-                <span class="badge bg-primary">Registrar</span>
+                <span class="badge bg-primary">{{ 'NAV.REGISTER' | translate }}</span>
             </a>
             }
         </div>
@@ -73,7 +76,7 @@
     <article>
         @if (!isAuthenticated) {
         <div class="alert alert-warning text-center m-0" role="alert">
-            ⚠️ Para concluir compras adicionadas no carrinho, é necessário estar autenticado.
+            ⚠️ {{ 'NAV.ALERT' | translate }}
         </div>
         }
     </article>
@@ -82,12 +85,12 @@
         <div class="container d-flex justify-content-between">
 
             <div class="navbar-nav fw-bold navbar-brand">
-                <a class="nav-link" routerLink="/" routerLinkActive="active">Produtos</a>
+                <a class="nav-link" routerLink="/" routerLinkActive="active">{{ 'NAV.PRODUCTS' | translate }}</a>
             </div>
 
             @if (isAuthenticated && username === 'johnd') {
                 <div class="navbar-nav fw-bold navbar-brand">
-                    <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
+                    <a class="nav-link" routerLink="/admin" routerLinkActive="active">{{ 'NAV.ADMIN' | translate }}</a>
                 </div>
             }
 

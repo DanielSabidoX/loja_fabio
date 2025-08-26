@@ -1,0 +1,18 @@
+{
+    "NAV": {
+        "HOME": "Início",
+        "BUY" : "Boas compras",
+        "CLIENT" : "Visitante",
+        "CREDITS": "Créditos",
+        "STORE": "Loja",
+        "PRODUCTS": "Produtos",
+        "CART": "Carrinho",
+        "LOGIN": "Entrar",
+        "REGISTER": "Registrar",
+        "ADMIN": "Admin",
+        "LOGOUT": "Sair",
+        "PROFILE": "Perfil",
+        "MESSAGE": "Realize seu Login",
+        "ALERT": "Para concluir compras adicionadas no carrinho, é necessário estar autenticado."
+    }
+}
