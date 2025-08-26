@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 import { CapitalizeWordsPipe } from '../../helpers/capitalize.pipe';
-import { UserService } from '../../services/user.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -21,7 +20,7 @@ export class NavbarComponent {
   private cartService = inject(CartService);
   authService = inject(AuthService);
 
-  // cartCount sempre reativo
+  // carrinho reativo
   cartCount = computed(() =>
     this.cartService.items().reduce((sum, item) => sum + item.quantidade, 0)
   );
@@ -39,7 +38,6 @@ export class NavbarComponent {
     translate.addLangs(['en', 'pt']);
     translate.setDefaultLang('pt');
 
-    // pega do localStorage ou navegador
     const savedLang = localStorage.getItem('lang');
     const browserLang = translate.getBrowserLang();
 
@@ -50,7 +48,6 @@ export class NavbarComponent {
           ? browserLang
           : 'pt'
     );
-
   }
 
   toggleTheme(event: Event): void {
@@ -67,18 +64,19 @@ export class NavbarComponent {
     return this.authService.isAuthenticated();
   }
 
-  get username(): string {
-    return this.authService.getUsername() || '';
+  // ✅ pega o nome completo do usuário logado do signal
+  get displayName(): string {
+    const user = this.authService.user();
+    if (!user) return '';
+    return `${user.name.firstname} ${user.name.lastname}`;
   }
 
   sair() {
     this.authService.logout();
   }
 
-  // troca dinamicamente o idioma
   changeLang(lang: string) {
     this.translate.use(lang);
-    localStorage.setItem('lang', lang); // opcional: salvar preferência
+    localStorage.setItem('lang', lang);
   }
-
 }

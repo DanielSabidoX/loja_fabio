@@ -1,99 +1,98 @@
 <main class="fixed-top ">
-    <header class="navbar navbar-expand-lg d-flex flex-row text-center justify-content-between theme-gradient">
+  <header class="navbar navbar-expand-lg d-flex flex-row text-center justify-content-between theme-gradient">
 
-        <div class="ico-loja d-flex align-items-center">
-            <a class="flex-fill mx-2 fw-bold">
-                <i class="bi bi-shop me-2"></i>{{ 'NAV.STORE' | translate }}<br>Fábio
-            </a>
+    <div class="ico-loja d-flex align-items-center">
+      <a class="flex-fill mx-2 fw-bold">
+        <i class="bi bi-shop me-2"></i>{{ 'NAV.STORE' | translate }}<br>Fábio
+      </a>
+    </div>
+
+    <div class="ms-auto d-flex align-items-center">
+      @if (isAuthenticated) {
+      <h1 class="navbar-text flex-fill mx-2">
+        {{ 'NAV.BUY' | translate }}, 
+        <span class="fw-bold">{{ displayName | capitalizeWords }}</span>
+      </h1>
+      } @else {
+      <h1 class="navbar-text flex-fill mx-2">
+        {{ 'NAV.BUY' | translate }}, 
+        <span class="fw-bold">{{ 'NAV.CLIENT' | translate }}</span>
+      </h1>
+      }
+    </div>
+
+    <div class="d-flex align-items-center ms-auto">
+
+      <div class="language-switcher m-3">
+        <button class="mx-3" (click)="changeLang('pt')">🇧🇷 Português</button>
+        <button (click)="changeLang('en')">🇺🇸 English</button>
+      </div>
+
+      <div class="creditos">
+        <a class="flex-fill mx-2 fw-bold" routerLink="/creditos">{{ 'NAV.CREDITS' | translate }}</a>
+      </div>
+
+      <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/cart">
+        <i class="bi bi-cart"></i>
+        <span class="badge" [ngClass]="cartCount() > 0 ? 'bg-success' : 'bg-danger'">
+          {{ cartCount() }}
+        </span>
+      </a>
+
+      @if (isAuthenticated) {
+        <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/user">
+          <i class="bi bi-person-check"></i>
+          <span class="badge bg-success">{{ 'NAV.PROFILE' | translate }}</span>
+        </a>
+        <a class="navbar-brand flex-fill mx-2 fw-bold" (click)="sair()">
+          <i class="bi bi-box-arrow-right"></i>
+          <span class="badge bg-secondary">{{ 'NAV.LOGOUT' | translate }}</span>
+        </a>
+      } @else {
+        <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/login">
+          <i class="bi bi-person"></i>
+          <span class="badge bg-danger">{{ 'NAV.MESSAGE' | translate }}</span>
+        </a>
+        <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/register">
+          <i class="bi bi-person-add"></i>
+          <span class="badge bg-primary">{{ 'NAV.REGISTER' | translate }}</span>
+        </a>
+      }
+    </div>
+
+    <div class="d-flex align-items-end">
+      <div class="d-flex flex-column justify-content-center align-items-center mx-3 p-2 border rounded">
+        <label class="form-check-label fw-bold mb-1" id="modo_tema">
+          {{ modo_tema }}
+        </label>
+        <div class="form-check form-switch m-0 p-0 d-flex justify-content-center">
+          <input class="form-check-input icon mx-auto" type="checkbox" role="switch" id="mudar_tema"
+            [checked]="tema === 'dark'" (click)="toggleTheme($event)">
         </div>
+      </div>
+    </div>
+  </header>
 
-        <div class="ms-auto d-flex align-items-center">
-            @if (isAuthenticated) {
-            <h1 class="navbar-text flex-fill mx-2">
-                {{ 'NAV.BUY' | translate }}, <span class="fw-bold">{{ (username) | capitalizeWords }}</span>
-            </h1>
-            } @else {
-            <h1 class="navbar-text flex-fill mx-2">
-                {{ 'NAV.BUY' | translate }}, <span class="fw-bold">{{ 'NAV.CLIENT' | translate }}</span>
-            </h1>
-            }
+  <article>
+    @if (!isAuthenticated) {
+    <div class="alert alert-warning text-center m-0" role="alert">
+      ⚠️ {{ 'NAV.ALERT' | translate }}
+    </div>
+    }
+  </article>
+
+  <section class="navbar navbar-expand-lg d-flex flex-row ">
+    <div class="container d-flex justify-content-between">
+
+      <div class="navbar-nav fw-bold navbar-brand">
+        <a class="nav-link" routerLink="/" routerLinkActive="active">{{ 'NAV.PRODUCTS' | translate }}</a>
+      </div>
+
+      @if (isAuthenticated && authService.user()?.username === 'johnd') {
+        <div class="navbar-nav fw-bold navbar-brand">
+          <a class="nav-link" routerLink="/admin" routerLinkActive="active">{{ 'NAV.ADMIN' | translate }}</a>
         </div>
-
-        <div class="d-flex align-items-center ms-auto">
-
-            <div class="language-switcher m-3">
-            <button class="mx-3" (click)="changeLang('pt')">🇧🇷 Português</button>
-            <button (click)="changeLang('en')">🇺🇸 English</button>
-            </div>            
-
-            <div class="creditos">
-                <a class="flex-fill mx-2 fw-bold" routerLink="/creditos">{{ 'NAV.CREDITS' | translate }}</a>
-            </div>
-
-            <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/cart">
-                <i class="bi bi-cart"></i>
-                    <span class="badge" [ngClass]="cartCount() > 0 ? 'bg-success' : 'bg-danger'">
-                        {{ cartCount() }}
-                    </span>
-            </a>
-
-            <!-- Autenticado -->
-            @if (isAuthenticated) {
-
-            <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/user">
-                <i class="bi bi-person-check"></i>
-                <span class="badge bg-success">{{ 'NAV.PROFILE' | translate }}</span>
-            </a>
-            <a class="navbar-brand flex-fill mx-2 fw-bold" (click)="sair()">
-                <i class="bi bi-box-arrow-right"></i>
-                <span class="badge bg-secondary">{{ 'NAV.LOGOUT' | translate }}</span>
-            </a>
-            } @else {
-            <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/login">
-                <i class="bi bi-person"></i>
-                <span class="badge bg-danger">{{ 'NAV.MESSAGE' | translate }}</span>
-            </a>
-            <a class="navbar-brand flex-fill mx-2 fw-bold" routerLink="/register">
-                <i class="bi bi-person-add"></i>
-                <span class="badge bg-primary">{{ 'NAV.REGISTER' | translate }}</span>
-            </a>
-            }
-        </div>
-
-        <div class="d-flex align-items-end">
-            <div class="d-flex flex-column justify-content-center align-items-center mx-3 p-2 border rounded">
-                <label class="form-check-label fw-bold mb-1" id="modo_tema">
-                    {{ modo_tema }}
-                </label>
-                <div class="form-check form-switch m-0 p-0 d-flex justify-content-center">
-                    <input class="form-check-input icon mx-auto" type="checkbox" role="switch" id="mudar_tema"
-                        [checked]="tema === 'dark'" (click)="toggleTheme($event)">
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <article>
-        @if (!isAuthenticated) {
-        <div class="alert alert-warning text-center m-0" role="alert">
-            ⚠️ {{ 'NAV.ALERT' | translate }}
-        </div>
-        }
-    </article>
-
-    <section class="navbar navbar-expand-lg d-flex flex-row ">
-        <div class="container d-flex justify-content-between">
-
-            <div class="navbar-nav fw-bold navbar-brand">
-                <a class="nav-link" routerLink="/" routerLinkActive="active">{{ 'NAV.PRODUCTS' | translate }}</a>
-            </div>
-
-            @if (isAuthenticated && username === 'johnd') {
-                <div class="navbar-nav fw-bold navbar-brand">
-                    <a class="nav-link" routerLink="/admin" routerLinkActive="active">{{ 'NAV.ADMIN' | translate }}</a>
-                </div>
-            }
-
-        </div>
-    </section>
+      }
+    </div>
+  </section>
 </main>
