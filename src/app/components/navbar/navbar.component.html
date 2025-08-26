@@ -12,6 +12,8 @@
       <h1 class="navbar-text flex-fill mx-2">
         {{ 'NAV.BUY' | translate }}, 
         <span class="fw-bold">{{ displayName | capitalizeWords }}</span>
+        <span class="fw-light"> ({{ displayUserDados.email || null  }})</span>
+
       </h1>
       } @else {
       <h1 class="navbar-text flex-fill mx-2">

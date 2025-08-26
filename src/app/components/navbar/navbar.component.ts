@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 import { CapitalizeWordsPipe } from '../../helpers/capitalize.pipe';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { User } from '../../types/user.type';
 
 @Component({
   selector: 'app-navbar',
@@ -69,6 +70,12 @@ export class NavbarComponent {
     const user = this.authService.user();
     if (!user) return '';
     return `${user.name.firstname} ${user.name.lastname}`;
+  }
+
+  get displayUserDados(): User {
+    const user = this.authService.user();
+    if (!user) throw new Error('Usuário não autenticado');
+    return user;
   }
 
   sair() {
