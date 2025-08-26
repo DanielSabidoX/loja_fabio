@@ -1,10 +1,12 @@
 <div class="container mt-4">
 
-    <div class="alert alert-info small">
-        <h5 class="text-center">Atenção</h5>
-        <p class="text-center">As alterações realizadas refletirão na lista de produtos, porém ao atualizar a página (F5) as alterações serão perdidas devido ao FAKE API de fato não atualizar, criar ou excluir o produto.</p>
-        
-    </div>
+  <div class="alert alert-info small">
+    <h5 class="text-center">Atenção</h5>
+    <p class="text-center">
+      As alterações realizadas refletirão na lista de produtos, porém ao atualizar a página (F5)
+      as alterações serão perdidas devido ao FAKE API de fato não atualizar, criar ou excluir o produto.
+    </p>
+  </div>
 
   <h2>Administração de Produtos</h2>
 
@@ -33,72 +35,111 @@
           </td>
         </tr>
       }
-
     </tbody>
   </table>
 
-  <!-- Modal Bootstrap para criar/editar -->
+  <!-- Modal Bootstrap -->
   <div class="modal fade draggable" id="produtoModal" tabindex="-1" aria-labelledby="produtoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header" >
+      <form #produtoForm="ngForm" (ngSubmit)="saveProduto(produtoForm)" class="modal-content needs-validation" novalidate>
+        <div class="modal-header">
           <h5 class="modal-title fw-bold" id="produtoModalLabel">{{ editProduto.id ? 'Editar Produto' : 'Criar Produto' }}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
         <div class="modal-body">
+          
+          <!-- Título -->
           <div class="mb-3">
             <label class="fw-bold">Título</label>
-            <input class="form-control" [(ngModel)]="editProduto.title">
-          </div>
-            <div class="mb-3">
-                <label class="fw-bold">Preço</label>         
-                <input class="form-control" 
-                    type="text"
-                    [(ngModel)]="editProduto.price"
-                    mask="separator.2"
-                    thousandSeparator="."
-                    decimalMarker=","
-                    prefix="R$ ">
+            <input class="form-control"
+                   [(ngModel)]="editProduto.title"
+                   name="title"
+                   required>
+            <div *ngIf="produtoForm.submitted && !editProduto.title" class="text-danger small">
+              O título é obrigatório.
             </div>
+          </div>
 
+          <!-- Preço -->
+          <div class="mb-3">
+            <label class="fw-bold">Preço</label>
+            <input class="form-control"
+                   type="text"
+                   [(ngModel)]="editProduto.price"
+                   name="price"
+                   required
+                   mask="separator.2"
+                   thousandSeparator="."
+                   decimalMarker=","
+                   prefix="R$ ">
+            <div *ngIf="produtoForm.submitted && !editProduto.price" class="text-danger small">
+              O preço é obrigatório.
+            </div>
+          </div>
+
+          <!-- Categoria -->
           <div class="mb-3">
             <label class="fw-bold">Categoria</label>
-            <select class="form-control" [(ngModel)]="editProduto.category">
+            <select class="form-control"
+                    [(ngModel)]="editProduto.category"
+                    name="category"
+                    required>
+              <option value="" disabled selected>Selecione...</option>
               <option *ngFor="let c of categorias">{{ c }}</option>
             </select>
+            <div *ngIf="produtoForm.submitted && !editProduto.category" class="text-danger small">
+              A categoria é obrigatória.
+            </div>
           </div>
+
+          <!-- Descrição -->
           <div class="mb-3">
             <label class="fw-bold">Descrição</label>
-            <textarea class="form-control" [(ngModel)]="editProduto.description"></textarea>
+            <textarea class="form-control"
+                      [(ngModel)]="editProduto.description"
+                      name="description"
+                      required></textarea>
+            <div *ngIf="produtoForm.submitted && !editProduto.description" class="text-danger small">
+              A descrição é obrigatória.
+            </div>
           </div>
+
+          <!-- Imagem -->
           <div class="mb-3">
             <label class="fw-bold">Imagem URL</label>
-            <input class="form-control" [(ngModel)]="editProduto.image">
+            <input class="form-control"
+                   [(ngModel)]="editProduto.image"
+                   name="image"
+                   required>
+            <div *ngIf="produtoForm.submitted && !editProduto.image" class="text-danger small">
+              A URL da imagem é obrigatória.
+            </div>
           </div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetForm()">Cancelar</button>
-          <button type="button" class="btn btn-primary" (click)="saveProduto(); closeModal()">Salvar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="produtoForm.invalid">Salvar</button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
-</div>
 
-<!-- Modal de Confirmação de Exclusão -->
-<div class="modal fade draggable" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header" >
-        <h5 class="modal-title" id="confirmDeleteModalLabel">Excluir Produto</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-      </div>
-      <div class="modal-body">
-        Tem certeza que deseja excluir o produto <strong>{{ deleteProduto?.title }}</strong>?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger" (click)="confirmDelete()">Excluir</button>
+  <!-- Modal de Exclusão -->
+  <div class="modal fade draggable" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Excluir Produto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          Tem certeza que deseja excluir o produto <strong>{{ deleteProduto?.title }}</strong>?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" (click)="confirmDelete()">Excluir</button>
+        </div>
       </div>
     </div>
   </div>

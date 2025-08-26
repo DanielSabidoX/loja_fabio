@@ -65,17 +65,17 @@ export class NavbarComponent {
     return this.authService.isAuthenticated();
   }
 
-  // ✅ pega o nome completo do usuário logado do signal
+ 
   get displayName(): string {
     const user = this.authService.user();
     if (!user) return '';
     return `${user.name.firstname} ${user.name.lastname}`;
   }
 
-  get displayUserDados(): User {
+  get displayEmail(): string {
     const user = this.authService.user();
-    if (!user) throw new Error('Usuário não autenticado');
-    return user;
+    if (!user) return '';
+    return `${user.email}`;
   }
 
   sair() {

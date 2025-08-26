@@ -12,7 +12,7 @@
       <h1 class="navbar-text flex-fill mx-2">
         {{ 'NAV.BUY' | translate }}, 
         <span class="fw-bold">{{ displayName | capitalizeWords }}</span>
-        <span class="fw-light"> ({{ displayUserDados.email || null  }})</span>
+        <span class="fw-light"> ({{ displayEmail || null  }})</span>
 
       </h1>
       } @else {
@@ -25,9 +25,9 @@
 
     <div class="d-flex align-items-center ms-auto">
 
-      <div class="language-switcher m-3">
-        <button class="mx-3" (click)="changeLang('pt')">🇧🇷 Português</button>
-        <button (click)="changeLang('en')">🇺🇸 English</button>
+      <div class="language-switcher mx-2">
+        <button class="m-1" (click)="changeLang('pt')">🇧🇷 Português</button>
+        <button class="m-1" (click)="changeLang('en')">🇺🇸 English  </button>
       </div>
 
       <div class="creditos">

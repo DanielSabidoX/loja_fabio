@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Produto, Categories } from '../../types/product.type';
 import { ProductService } from '../../services/product.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
 import interact from 'interactjs';
 
-declare var bootstrap: any; // para usar JS do Bootstrap
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-admin',
@@ -16,7 +16,6 @@ declare var bootstrap: any; // para usar JS do Bootstrap
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-
   produtos: Produto[] = [];
   categorias: Categories[] = [];
   editProduto: Partial<Produto> = {};
@@ -25,7 +24,7 @@ export class AdminComponent implements OnInit {
   private modal: any;
   private deleteModal: any;
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -36,12 +35,11 @@ export class AdminComponent implements OnInit {
 
     const deleteModalEl = document.getElementById('confirmDeleteModal');
     this.deleteModal = new bootstrap.Modal(deleteModalEl, { backdrop: 'static' });
-
   }
 
   ngAfterViewInit() {
     interact('.modal.draggable .modal-dialog').draggable({
-      allowFrom: '.modal-header', // arrasta apenas pelo header
+      allowFrom: '.modal-header',
       listeners: {
         move(event) {
           const target = event.target as HTMLElement;
@@ -73,7 +71,11 @@ export class AdminComponent implements OnInit {
     this.resetForm();
   }
 
-  saveProduto() {
+  saveProduto(form: NgForm) {
+    if (form.invalid) {
+      return; 
+    }
+
     if (this.editProduto.price != null) {
       const numericPrice = Number(
         String(this.editProduto.price)
@@ -87,10 +89,12 @@ export class AdminComponent implements OnInit {
     if (this.editProduto.id) {
       this.productService.updateProduct(this.editProduto.id, this.editProduto).subscribe(() => {
         this.loadProducts();
+        this.closeModal();
       });
     } else {
       this.productService.createProduct(this.editProduto).subscribe(() => {
         this.loadProducts();
+        this.closeModal();
       });
     }
   }
@@ -99,13 +103,11 @@ export class AdminComponent implements OnInit {
     this.editProduto = { ...p };
   }
 
-  // Ao clicar no botão "Excluir"
   delete(p: Produto) {
     this.deleteProduto = p;
     this.deleteModal.show();
   }
 
-  // Confirmação de exclusão
   confirmDelete() {
     if (this.deleteProduto) {
       this.productService.deleteProduct(this.deleteProduto.id).subscribe(() => {
@@ -119,9 +121,4 @@ export class AdminComponent implements OnInit {
   resetForm() {
     this.editProduto = {};
   }
-
-
-
-
-
 }

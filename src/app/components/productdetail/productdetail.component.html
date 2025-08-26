@@ -10,7 +10,7 @@
 
             <P>
                 <span class="text-warning">★</span>
-                {{ produto.rating.rate }} ({{ produto.rating.count }} avaliações)
+                {{ produto.rating?.rate || null }} ({{ produto.rating?.count || null }} avaliações)
             </P>
 
 
